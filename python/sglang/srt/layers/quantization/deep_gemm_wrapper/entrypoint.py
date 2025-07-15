@@ -25,6 +25,7 @@ if ENABLE_JIT_DEEPGEMM:
         from deep_gemm import (
             m_grouped_fp8_gemm_nt_contiguous as _grouped_gemm_nt_f8f8bf16_contig_raw,
         )
+        from deep_gemm.utils.layout import get_col_major_tma_aligned_packed_tensor as get_col_major_tma_aligned_tensor
     else:
         from deep_gemm import gemm_fp8_fp8_bf16_nt as _gemm_nt_f8f8bf16_raw
         from deep_gemm import get_col_major_tma_aligned_tensor
@@ -44,6 +45,7 @@ def grouped_gemm_nt_f8f8bf16_masked(
     expected_m: int,
     recipe=None,
 ):
+    print(f"masked m={lhs[0].shape[1]}, k={lhs[0].shape[2]}, n={rhs[0].shape[1]}, num_groups={lhs[0].shape[0]}")
     num_groups, _, k = lhs[0].shape
     _, n, _ = rhs[0].shape
     kernel_type = compile_utils.DeepGemmKernelType.GROUPED_GEMM_NT_F8F8BF16_MASKED
@@ -67,6 +69,7 @@ def grouped_gemm_nt_f8f8bf16_contig(
     out: torch.Tensor,
     m_indices: torch.Tensor,
 ):
+    print(f"contig m={lhs[0].shape[0]}, k={lhs[0].shape[1]}, n={rhs[0].shape[1]}, num_groups={lhs[0].shape[0]}")
     m, k = lhs[0].shape
     num_groups, n, _ = rhs[0].shape
     kernel_type = compile_utils.DeepGemmKernelType.GROUPED_GEMM_NT_F8F8BF16_CONTIG
@@ -80,6 +83,7 @@ def gemm_nt_f8f8bf16(
     rhs: Tuple[torch.Tensor, torch.Tensor],
     out: torch.Tensor,
 ):
+    print(f"gemm m={lhs[0].shape[0]}, k={lhs[0].shape[1]}, n={rhs[0].shape[0]}")
     m, k = lhs[0].shape
     n, _ = rhs[0].shape
     num_groups = 1

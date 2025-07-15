@@ -2223,8 +2223,8 @@ class DeepseekV2ForCausalLM(nn.Module):
                     ):
                         if (
                             deep_gemm_wrapper.ENABLE_JIT_DEEPGEMM
-                            and not deep_gemm_wrapper.DEEPGEMM_BLACKWELL
-                            and get_bool_env_var("SGL_USE_DEEPGEMM_BMM", "false")
+                            # and not deep_gemm_wrapper.DEEPGEMM_BLACKWELL
+                            # and get_bool_env_var("SGL_USE_DEEPGEMM_BMM", "false")
                         ):
                             block_scale = weight_scale
                             use_deep_gemm_bmm = True

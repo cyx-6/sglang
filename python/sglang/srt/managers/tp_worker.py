@@ -78,6 +78,9 @@ class TpModelWorker:
             is_draft_model=is_draft_worker,
         )
 
+        self.model_config.num_hidden_layers = 5
+        self.model_config.hf_config.num_hidden_layers = 5
+
         self.model_runner = ModelRunner(
             model_config=self.model_config,
             mem_fraction_static=server_args.mem_fraction_static,
